@@ -41,14 +41,16 @@ namespace ApiBoletim.Controllers
 
         // PUT api/<AlunoController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public Aluno Put(int id, [FromBody] Aluno a)
         {
+            return repo.Alterar(id, a);
         }
 
         // DELETE api/<AlunoController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+           repo.Excluir(id); 
         }
     }
 }

@@ -20,9 +20,23 @@ namespace ApiBoletim.Repositories
 
 
 
-        public Aluno Alterar(Aluno a)
+        public Aluno Alterar(int id, Aluno a)
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+
+            cmd.CommandText = "UPDATE Aluno SET" +
+                "Nome = "+a.Nome+", "+ 
+                "RA = @ra, " +
+                "Idade = @idade WHERE IdAluno = @id ";
+            cmd.Parameters.AddWithValue("@nome", a.Nome);
+            cmd.Parameters.AddWithValue("@ra", a.RA);
+            cmd.Parameters.AddWithValue("@idade", a.Idade);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+            conexao.Desconectar();
+            return a;
         }
 
         public Aluno BuscarPorId(int id)
@@ -66,12 +80,21 @@ namespace ApiBoletim.Repositories
 
             // DML -> ExecuteNonQuery
 
+            conexao.Desconectar();
+
             return a;
         }
 
-        public Aluno Excluir(Aluno a)
+        public void Excluir(int id)
         {
-            throw new NotImplementedException();
+            cmd.Connection = conexao.Conectar();
+
+            cmd.CommandText = "DELETE FROM Aluno WHERE IdAluno = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+            conexao.Desconectar();
         }
 
         public List<Aluno> LerTodos()
